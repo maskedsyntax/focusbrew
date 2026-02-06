@@ -1,16 +1,16 @@
-# FocusBrew 🍵⏳
+# FocusBrew
 
 ![Go](https://img.shields.io/badge/Go-1.20+-blue)
 ![TUI](https://img.shields.io/badge/TUI-BubbleTea-yellowgreen)
 ![Cross-Platform](https://img.shields.io/badge/Platform-Linux%20|%20Windows%20|%20macOS-blue)
 
-**FocusBrew** is a terminal-based Pomodoro Timer built using **Golang** and the **Bubble Tea** TUI framework. This project is designed to provide a lightweight and distraction-free productivity tool for developers and terminal enthusiasts.
+FocusBrew is a terminal-based Pomodoro Timer built using Golang and the Bubble Tea TUI framework. This project is designed to provide a lightweight and distraction-free productivity tool for developers and terminal enthusiasts.
 
 ---
 
 ## **Project Status**
 
-🚀 **Active Development**:  
+**Active Development**:  
 The core MVP features have been implemented, including the Pomodoro timer, session management, and keyboard shortcuts. Contributions and feedback are welcome!
 
 ---
@@ -100,7 +100,7 @@ To build and run **FocusBrew**, ensure you have [Go](https://go.dev/dl/) install
 ---
 
 ## **License**
-This project will be licensed under the **MIT License** once development begins.
+This project is licensed under the **MIT License**.
 
 ---
 
