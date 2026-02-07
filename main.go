@@ -25,7 +25,6 @@ const (
 	StateLongBreak
 )
 
-// String returns the string representation of the session state
 func (s SessionState) String() string {
 	switch s {
 	case StateWork:
@@ -65,6 +64,11 @@ var (
 	progressStyle = lipgloss.NewStyle().
 			PaddingLeft(2).
 			PaddingRight(2)
+
+	sessionStyle = lipgloss.NewStyle().
+			Foreground(lipgloss.Color("#AAA")).
+			Italic(true).
+			MarginTop(1)
 )
 
 type tickMsg time.Time
@@ -112,7 +116,7 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			m.nextSession()
 		}
 	case tea.WindowSizeMsg:
-		m.progress.Width = msg.Width - 10 // Padding
+		m.progress.Width = msg.Width - 10
 		if m.progress.Width > 80 {
 			m.progress.Width = 80
 		}
@@ -120,16 +124,14 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	case tickMsg:
 		if m.running && m.timeLeft > 0 {
 			m.timeLeft -= time.Second
-			
-			// Update progress
 			percent := 1.0 - (float64(m.timeLeft) / float64(m.duration))
 			cmd := m.progress.SetPercent(percent)
-			
 			return m, tea.Batch(tick(), cmd)
 		} else if m.running && m.timeLeft <= 0 {
 			m.running = false
 			m.progress.SetPercent(1.0)
-			// Here we could auto-advance or just stop
+			// Trigger next session automatically or wait for user?
+			// For now, let's just stop.
 		}
 	case progress.FrameMsg:
 		progressModel, cmd := m.progress.Update(msg)
@@ -141,21 +143,12 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 func (m *model) resetTimer() {
 	m.running = false
-	switch m.state {
-	case StateWork:
-		m.duration = DefaultWorkDuration
-	case StateShortBreak:
-		m.duration = DefaultShortBreakDuration
-	case StateLongBreak:
-		m.duration = DefaultLongBreakDuration
-	}
 	m.timeLeft = m.duration
 	m.progress.SetPercent(0)
 }
 
 func (m *model) nextSession() {
 	m.running = false
-	// Logic to cycle sessions: Work -> Short Break -> Work -> Short Break -> Work -> Long Break
 	if m.state == StateWork {
 		m.sessionCount++
 		if m.sessionCount%4 == 0 {
@@ -166,7 +159,6 @@ func (m *model) nextSession() {
 			m.duration = DefaultShortBreakDuration
 		}
 	} else {
-		// From break to work
 		m.state = StateWork
 		m.duration = DefaultWorkDuration
 	}
@@ -184,7 +176,7 @@ func (m model) View() string {
 	minutes := int(m.timeLeft.Minutes())
 	seconds := int(m.timeLeft.Seconds()) % 60
 
-	header := titleStyle.Render("FocusBrew 🍵")
+	header := titleStyle.Render("FocusBrew")
 	
 	status := fmt.Sprintf("%s", m.state)
 	timeStr := fmt.Sprintf("%02d:%02d", minutes, seconds)
@@ -196,9 +188,9 @@ func (m model) View() string {
 		),
 	)
 
-	// Update the logic to reflect current progress state even if paused
-	// Just reusing the model's progress view
 	progView := progressStyle.Render(m.progress.View())
+	
+	sessions := sessionStyle.Render(fmt.Sprintf("Completed Sessions: %d", m.sessionCount))
 
 	help := helpStyle.Render("s: start • p: pause • r: reset • n: next • q: quit")
 
@@ -206,6 +198,7 @@ func (m model) View() string {
 		header,
 		timerView,
 		progView,
+		sessions,
 		help,
 	)
 }
@@ -213,6 +206,6 @@ func (m model) View() string {
 func main() {
 	p := tea.NewProgram(initialModel())
 	if _, err := p.Run(); err != nil {
-		fmt.Printf("Alas, there's been an error: %v", err)
+		fmt.Printf("Error: %v", err)
 	}
 }
