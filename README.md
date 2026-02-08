@@ -6,6 +6,13 @@ A lightweight terminal-based Pomodoro Timer built with Go and Bubble Tea.
 
 Ensure you have [Go](https://go.dev/dl/) installed (1.20+).
 
+### Install via Go
+```bash
+go install github.com/MaskedSyntax/FocusBrew@latest
+```
+This will install the `FocusBrew` binary to your `$GOPATH/bin` directory.
+
+### Build from source
 ```bash
 git clone https://github.com/MaskedSyntax/FocusBrew.git
 cd focusbrew
