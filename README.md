@@ -8,13 +8,18 @@ Ensure you have [Go](https://go.dev/dl/) installed (1.20+).
 
 ### Install via Go
 ```bash
-go install github.com/MaskedSyntax/FocusBrew@latest
+go install github.com/maskedsyntax/focusbrew@latest
 ```
-This will install the `FocusBrew` binary to your `$GOPATH/bin` directory.
+This will install the `focusbrew` binary to your `$GOPATH/bin` directory. 
+
+**Note:** Make sure `$(go env GOPATH)/bin` is in your `PATH`. You can add it by adding this to your `.zshrc` or `.bashrc`:
+```bash
+export PATH=$PATH:$(go env GOPATH)/bin
+```
 
 ### Build from source
 ```bash
-git clone https://github.com/MaskedSyntax/FocusBrew.git
+git clone https://github.com/maskedsyntax/focusbrew.git
 cd focusbrew
 go build -o focusbrew
 ./focusbrew

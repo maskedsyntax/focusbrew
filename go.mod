@@ -1,4 +1,4 @@
-module github.com/MaskedSyntax/FocusBrew
+module github.com/maskedsyntax/focusbrew
 
 go 1.25.3
 
