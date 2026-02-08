@@ -27,6 +27,15 @@ go build -o focusbrew
 
 ## Usage
 
+Run `focusbrew` to start with default settings (25m work, 5m short break, 15m long break).
+
+### Custom Durations
+You can customize the timer using flags:
+```bash
+focusbrew -work 50 -short 10 -long 30
+```
+
+### Controls
 - `s`: Start the timer
 - `p`: Pause the timer
 - `r`: Reset current session
@@ -34,6 +43,6 @@ go build -o focusbrew
 - `q`: Quit
 
 The timer follows the standard Pomodoro technique:
-- 25-minute work sessions
-- 5-minute short breaks
-- 15-minute long break after every 4 work sessions
+- 25-minute work sessions (default)
+- 5-minute short breaks (default)
+- 15-minute long break after every 4 work sessions (default)
